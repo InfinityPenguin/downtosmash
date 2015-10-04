@@ -13,7 +13,7 @@ class User(models.Model):
 	friends = models.ManyToManyField('self') # future plans: users may have many friends, and also be friends to many users
 
 	def __str__(self):
-		return self.name_last + ", " + self.name_first
+		return self.name_first + ' ' + self.name_last + '/' + self.gamer_tag
 
 class Event(models.Model):
 	host = models.ForeignKey(User) # many events may be hosted by a user
@@ -24,4 +24,4 @@ class Event(models.Model):
 	description = models.TextField(max_length=500, blank=True)
 
 	def __str__(self):
-		return self.host.__str__()
+		return str(self.host) + ':' + str(self.date)

@@ -10,23 +10,39 @@ from .models import User, Event
 def index(request):
 	return HttpResponse('Down to smash?')
 
+def main(request):
+	return render(request, 'web/main.html')
+
 def event_window(request):
-	return HttpResponse('event_window')
+	return render(request, 'web/event_window.html')
 
 def event_details(request):
-	return HttpResponse('event_details')
+	return render(request, 'web/event_details.html')
 
 def my_events(request):
-	return HttpResponse('my_events')
+	return render(request, 'web/my_events.html')
 
 def menu(request):
-	return HttpResponse('menu')
+	return render(request, 'web/menu.html')
 
 def login(request):
-	return HttpResponse('login')
+	return render(request, 'web/login.html')
 
 def event_search(request):
-	return HttpResponse('event_search')
+	return render(request, 'web/event_search.html')
 
 def event_create(request):
-	return HttpResponse('event_create')
+	return render(request, 'web/event_create.html')
+
+class IndexView(generic.DetailView):
+	model = User
+	template_name = 'downtosmash/index.html'
+
+def create_event(request, user_id):
+	pass
+
+def down_to_smash(request, user_id, event_id):
+	pass
+
+def confirm_attendee(request, host_id, attendee_id):
+	pass
