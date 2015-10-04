@@ -1,6 +1,7 @@
 <!-- Draft up of event creation form for host-->
 
 <element title="text">Smashfest Details</element>
+<br><br>
 <!-- action is where the information will be sent? -->
 <form action="/event-create-page" method="post">
 	<div>
@@ -24,6 +25,7 @@
 	<div>
 		<label for="location">Location: </label>
 		<textarea id="location" name="event_location"></textarea>
+	</div>
 	<!-- Dropdown or checklist? -->
 	<div>
 		<label for="game">Game: </label>
@@ -35,6 +37,7 @@
 			<option value="Smash4">Smash4</option>
 		</select>
 	</div>
+	<br><br>
 	<!-- Create smashfest event button at bottom of form -->
 	<div class="button">
 		<button type="submit">Create smashfest!</button>
