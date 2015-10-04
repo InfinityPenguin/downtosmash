@@ -10,6 +10,10 @@ class UserAdmin(admin.ModelAdmin):
 	list_display = ('name_last', 'name_first', 'gamer_tag')
 	inlines = [EventInline]
 
+class EventAdmin(admin.ModelAdmin):
+	fields = ['host', 'date', 'capacity', 'location']
+	list_display = ['host', 'date', 'capacity', 'location']
+
 # Register your models here.
 admin.site.register(User, UserAdmin)
-admin.site.register(Event)
+admin.site.register(Event, EventAdmin)
