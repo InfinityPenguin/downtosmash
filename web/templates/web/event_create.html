@@ -1,0 +1,45 @@
+<!-- Draft up of event creation form for host-->
+
+<element title="text">Smashfest Details</element>
+<br><br>
+<!-- action is where the information will be sent? -->
+<form action="/event-create-page" method="post">
+	<div>
+		<label for="time">Time: </label>
+		<input type="time" id="time" name="event_time">
+	</div>
+	<div>
+		<label for="date">Date: </label>
+		<input type="date" id="date" name="event_date">
+	</div>
+<!-- Can either use date and time combined or separate
+	<div>
+  		<label for="datetime">Time:</label> 
+  		<input type="datetime-local" id="datetime" name="event_datetime">
+	</div>
+		-->
+	<div>
+		<label for="cap"> Cap: </label>
+		<input type="number" id="cap" name="event_cap">
+	</div>
+	<div>
+		<label for="location">Location: </label>
+		<textarea id="location" name="event_location"></textarea>
+	</div>
+	<!-- Dropdown or checklist? -->
+	<div>
+		<label for="game">Game: </label>
+		<select name="event_game">
+			<option value="64">64</option>
+			<option value="Melee">Melee</option>
+			<option value="Brawl">Brawl</option>
+			<option value="PM">PM</option>
+			<option value="Smash4">Smash4</option>
+		</select>
+	</div>
+	<br><br>
+	<!-- Create smashfest event button at bottom of form -->
+	<div class="button">
+		<button type="submit">Create smashfest!</button>
+	</div>
+</form>
