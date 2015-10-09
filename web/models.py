@@ -1,7 +1,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, UserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 
@@ -63,10 +63,11 @@ class Smasher(AbstractBaseUser):
 class Event(models.Model):
 	host = models.ForeignKey(Smasher) # many events may be hosted by a smasher
 
-	date = models.DateTimeField('Date and time of event')
+	start_time = models.DateTimeField('Start time')
+	end_time = models.DateTimeField('End time')
 	capacity = models.IntegerField('Capacity of event', default=0)
 	location = models.CharField(max_length=200)
 	description = models.TextField(max_length=500, blank=True)
 
 	def __str__(self):
-		return str(self.host) + ':' + str(self.date)
+		return str(self.host) + ': ' + str(self.start_time)
