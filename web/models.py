@@ -63,11 +63,19 @@ class Smasher(AbstractBaseUser):
 class Event(models.Model):
 	host = models.ForeignKey(Smasher) # many events may be hosted by a smasher
 
-	start_time = models.DateTimeField('Start time')
-	end_time = models.DateTimeField('End time')
-	capacity = models.IntegerField('Capacity of event', default=0)
+	start_time = models.TimeField('Time')
+	start_date = models.TimeField('Date')
+	capacity = models.IntegerField('Capacity', default=0)
 	location = models.CharField(max_length=200)
-	description = models.TextField(max_length=500, blank=True)
+	description = models.TextField(max_length=300, blank=True)
 
 	def __str__(self):
-		return str(self.host) + ': ' + str(self.start_time)
+		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date)
+
+	# events should end after they start
+	def is_valid_end_date(start_date, end_date):
+		return end_date > start_date and end_time > start_time
+
+	# returns a default ending datetime given a starting datetime
+	def get_default_end(start):
+		return start + datetime.timedelta(hours=1)
