@@ -67,15 +67,7 @@ class Event(models.Model):
 	start_date = models.TimeField('Date')
 	capacity = models.IntegerField('Capacity', default=0)
 	location = models.CharField(max_length=200)
-	description = models.TextField(max_length=300, blank=True)
+	notes = models.TextField('Notes', max_length=200, blank=True)
 
 	def __str__(self):
 		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date)
-
-	# events should end after they start
-	def is_valid_end_date(start_date, end_date):
-		return end_date > start_date and end_time > start_time
-
-	# returns a default ending datetime given a starting datetime
-	def get_default_end(start):
-		return start + datetime.timedelta(hours=1)
