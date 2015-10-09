@@ -2,8 +2,10 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
+from django.utils import timezone
 
 from .models import Smasher, Event
+from .forms import EventCreateForm
 
 # Create your views here.
 
@@ -32,7 +34,14 @@ def event_search(request):
 	return render(request, 'web/event_search.html')
 
 def event_create(request):
-	return render(request, 'web/event_create.html')
+	if request.method == 'POST':
+		form = EventCreateForm(request.POST)
+		if form.is_valid():
+			print(form['location'].value())
+			return HttpResponseRedirect('')
+	else:
+		form = EventCreateForm(initial={'start_time': timezone.now()})
+	return render(request, 'web/event_create.html', {'form': form})
 
 class IndexView(generic.DetailView):
 	model = Smasher

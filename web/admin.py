@@ -11,8 +11,8 @@ class SmasherAdmin(admin.ModelAdmin):
 	inlines = [EventInline]
 
 class EventAdmin(admin.ModelAdmin):
-	fields = ['host', 'start_time', 'capacity', 'location']
-	list_display = ['host', 'start_time', 'capacity', 'location']
+	fields = ['host', 'start_time', 'start_date', 'capacity', 'location', 'notes']
+	list_display = ['host', 'start_time', 'start_date', 'capacity', 'location', 'notes']
 
 # Register your models here.
 admin.site.register(Smasher, SmasherAdmin)
