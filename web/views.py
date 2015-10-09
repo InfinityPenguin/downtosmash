@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 
-from .models import User, Event
+from .models import Smasher, Event
 
 # Create your views here.
 
@@ -35,7 +35,7 @@ def event_create(request):
 	return render(request, 'web/event_create.html')
 
 class IndexView(generic.DetailView):
-	model = User
+	model = Smasher
 	template_name = 'downtosmash/index.html'
 
 def create_event(request, user_id):

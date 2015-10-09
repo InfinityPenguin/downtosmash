@@ -1,22 +1,67 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, UserManager
 
 # Create your models here.
 
-class User(models.Model):
+class SmasherManager(BaseUserManager):
+	def _create_user(self, email, name_first, name_last, password, is_admin, gamer_tag=''):
+		if not email:
+			raise ValueError('Smashers must have an email address')
+
+		smasher = self.model(
+			email=self.normalize_email(email),
+			name_first=name_first,
+			name_last=name_last,
+			gamer_tag=gamer_tag,
+			is_admin=is_admin,
+		)
+
+		smasher.set_password(password)
+		smasher.save(using=self._db)
+		return smasher
+
+	def create_user(self, email, name_first, name_last, password, gamer_tag):
+		return self._create_user(email, name_first, name_last, password, False, gamer_tag='')
+
+	def create_superuser(self, email, name_first, name_last, password, gamer_tag=''):
+		return self._create_user(email, name_first, name_last, password, True, gamer_tag)
+
+class Smasher(AbstractBaseUser):
+	email = models.EmailField(unique=True)
+	USERNAME_FIELD = 'email'
+	
 	name_first = models.CharField(max_length=50)
 	name_last = models.CharField(max_length=50)
 	gamer_tag = models.CharField(max_length=50, blank=True)
 
-	events = models.ManyToManyField('Event') # many users may attend an event, and a user may attend many events
-	friends = models.ManyToManyField('self') # future plans: users may have many friends, and also be friends to many users
+	is_active = models.BooleanField(default=True)
+	is_admin = models.BooleanField(default=False)
+
+	events = models.ManyToManyField('Event') # many smashers may attend an event, and a smasher may attend many events
+	friends = models.ManyToManyField('self') # future plans: smashers may have many friends, and also be friends to many smashers
+
+	REQUIRED_FIELDS = ['name_first', 'name_last']
+	objects = SmasherManager()
 
 	def __str__(self):
-		return self.name_first + ' ' + self.name_last + '/' + self.gamer_tag
+		return self.email
+	def get_full_name(self):
+		return self.email
+	def get_short_name(self):
+		return self.email
+
+	def has_perm(self, perm, obj=None):
+		return self.is_admin
+	def has_module_perms(self, app_label):
+		return self.is_admin
+	@property
+	def is_staff(self):
+		return self.is_admin
 
 class Event(models.Model):
-	host = models.ForeignKey(User) # many events may be hosted by a user
+	host = models.ForeignKey(Smasher) # many events may be hosted by a smasher
 
 	date = models.DateTimeField('Date and time of event')
 	capacity = models.IntegerField('Capacity of event', default=0)

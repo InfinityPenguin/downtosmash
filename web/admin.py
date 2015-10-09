@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import User, Event
+from .models import Smasher, Event
 
 class EventInline(admin.TabularInline):
 	model = Event
 	extra = 0
 
-class UserAdmin(admin.ModelAdmin):
+class SmasherAdmin(admin.ModelAdmin):
 	fields = ['name_last', 'name_first', 'gamer_tag']
 	list_display = ('name_last', 'name_first', 'gamer_tag')
 	inlines = [EventInline]
@@ -15,5 +15,5 @@ class EventAdmin(admin.ModelAdmin):
 	list_display = ['host', 'date', 'capacity', 'location']
 
 # Register your models here.
-admin.site.register(User, UserAdmin)
+admin.site.register(Smasher, SmasherAdmin)
 admin.site.register(Event, EventAdmin)
