@@ -29,6 +29,13 @@ def event_view(request, event_id):
 	return render(request, 'web/event_view.html', {'event': event, 'form': form})
 
 @login_required
+def attendees(request, event_id):
+	event = get_object_or_404(Event, pk=event_id)
+	attendee_list = Smasher.objects.all().filter(events__id=event_id)
+	print(str(attendee_list))
+	return render(request, 'web/attendees.html', {'attendees': attendee_list, 'event': event})
+
+@login_required
 def event_details(request):
 	return render(request, 'web/event_details.html')
 
