@@ -33,7 +33,13 @@ def menu(request):
 	return render(request, 'web/menu.html')
 
 def login(request):
-	return render(request, 'web/login.html')
+	if request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			return HttpResponseRedirect('')
+	else:
+		form = LoginForm()
+	return render(request, 'web/login.html', {'form': form})
 
 @login_required
 def event_search(request):
