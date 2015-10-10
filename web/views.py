@@ -50,8 +50,11 @@ def event_create(request):
 	if request.method == 'POST':
 		form = EventCreateForm(request.POST)
 		if form.is_valid():
-			print(form['location'].value())
-			return HttpResponseRedirect('')
+			new_event = form.save(commit=False)
+			new_event.host = request.user
+			new_event.save()
+			message = 'Event created successfully'
+			return render(request, 'web/event_create.html', {'message': message})
 	else:
 		form = EventCreateForm(initial={'start_time': timezone.now(), 'start_date': timezone.now()})
 	return render(request, 'web/event_create.html', {'form': form})

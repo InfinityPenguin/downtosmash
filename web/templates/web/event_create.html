@@ -1,5 +1,6 @@
 <!-- Draft up of event creation form for host-->
 <element title="text">Smashfest Details</element>
+{{ message }}
 <form action="{% url 'event_create' %}" method="post">
 	{% csrf_token %}
 	{{ form }}

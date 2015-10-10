@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+LOGIN_URL = '/login'
 AUTH_USER_MODEL = 'web.Smasher'
 LOGIN_URL = '/login/'
 
