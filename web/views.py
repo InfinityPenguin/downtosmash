@@ -37,12 +37,13 @@ def menu(request):
 def user_login(request):
 	if request.method == 'POST':
 		form = AuthenticationForm(None, request.POST)
+		nextpage = request.GET.get('next')
 		if form.is_valid():
 			login(request, form.get_user())
 			return HttpResponseRedirect(nextpage)
 	else:
 		form = AuthenticationForm(None)
-	return render(request, 'web/login.html', {'form': form})
+	return render(request, 'web/login.html', {'form': form, 'next': request.GET.get('next')})
 
 @login_required
 def event_search(request):
