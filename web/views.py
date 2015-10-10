@@ -4,9 +4,11 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
 
 from .models import Smasher, Event
-from .forms import EventCreateForm, UserCreationForm, LoginForm
+from .forms import EventCreateForm, UserCreationForm
 
 # Create your views here.
 
@@ -34,11 +36,11 @@ def menu(request):
 
 def login(request):
 	if request.method == 'POST':
-		form = LoginForm(request.POST)
-		if form.is_valid():
-			return HttpResponseRedirect('')
+		form = AuthenticationForm(request.POST)
+		print(str(form.get_user()))
+		return HttpResponseRedirect('')
 	else:
-		form = LoginForm()
+		form = AuthenticationForm()
 	return render(request, 'web/login.html', {'form': form})
 
 @login_required

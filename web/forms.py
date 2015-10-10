@@ -20,18 +20,16 @@ class EventCreateForm(forms.ModelForm):
 					'start_date': html5_widgets.DateInput,
 					}
 
-# overrides the text input type of 'password' to 'password'
-class PasswordInput(forms.widgets.PasswordInput):
-	input_type = 'password'
 
-class LoginForm(forms.ModelForm):
-	class Meta:
-		model = Smasher
-		fields = ['email',
-					'password',
-					]
-		widgets = {'password': PasswordInput(),
-					}
+#class LoginForm(forms.AuthenticationForm):
+
+#	class Meta:
+	# 	model = Smasher
+		# fields = ['email',
+		# 			'password',
+		# 			]
+	# 	widgets = {'password': PasswordInput(),
+	# 				}
 
 class UserCreationForm(forms.ModelForm):
 	"""A form for creating new users. Includes all the required
