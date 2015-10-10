@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
@@ -29,6 +30,10 @@ class SmasherManager(BaseUserManager):
 		return self._create_user(email, name_first, name_last, password, True, gamer_tag)
 
 class Smasher(AbstractBaseUser):
+	class Meta:
+		verbose_name = "smasher"
+		verbose_name_plural = "smashers"
+	
 	email = models.EmailField(unique=True)
 	USERNAME_FIELD = 'email'
 	
@@ -61,10 +66,10 @@ class Smasher(AbstractBaseUser):
 		return self.is_admin
 
 class Event(models.Model):
-	host = models.ForeignKey(Smasher) # many events may be hosted by a smasher
+	host = models.ForeignKey(settings.AUTH_USER_MODEL) # many events may be hosted by a smasher
 
-	start_time = models.TimeField('Time')
-	start_date = models.DateField('Date')
+	start_time = models.TimeField('Time', default=timezone.now)
+	start_date = models.DateField('Date', default=timezone.now)
 	capacity = models.IntegerField('Capacity', default=0)
 	location = models.CharField(max_length=200)
 	notes = models.TextField('Notes', max_length=200, blank=True)

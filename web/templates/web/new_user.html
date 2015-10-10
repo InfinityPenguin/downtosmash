@@ -1,0 +1,7 @@
+<!-- Draft up of user creation form-->
+<element title="text">New user</element>
+<form action="{% url 'new_user' %}" method="post">
+	{% csrf_token %}
+	{{ form }}
+	<input type="submit" value="Submit" />
+</form>
