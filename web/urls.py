@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
 	url(r'^$', views.main, name='main'),
 	url(r'^event_search/$', views.event_search, name='event_search'),
+	url(r'^event_search/(?P<event_id>[0-9]+)$', views.event_details, name='event_details'),
 	url(r'^event_create/$', views.event_create, name='event_create'),
 	url(r'^menu/$', views.menu, name='menu'),
 	url(r'^login/$', views.user_login, name='user_login'),

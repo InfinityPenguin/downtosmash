@@ -36,8 +36,9 @@ def attendees(request, event_id):
 	return render(request, 'web/attendees.html', {'attendees': attendee_list, 'event': event})
 
 @login_required
-def event_details(request):
-	return render(request, 'web/event_details.html')
+def event_details(request, event_id):
+	event = get_object_or_404(Event, pk=event_id)
+	return render(request, 'web/event_details.html', {'event': event})
 
 @login_required
 def my_events(request):
@@ -61,7 +62,8 @@ def user_login(request):
 
 @login_required
 def event_search(request):
-	return render(request, 'web/event_search.html')
+	events = Event.objects.all()
+	return render(request, 'web/event_search.html', {'events': events})
 
 @login_required
 def event_create(request):
