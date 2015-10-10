@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 AUTH_USER_MODEL = 'web.Smasher'
+LOGIN_URL = '/login/'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
