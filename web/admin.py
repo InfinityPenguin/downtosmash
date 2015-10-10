@@ -1,11 +1,14 @@
 from django.contrib import admin
 from .models import Smasher, Event
+from .forms import UserChangeForm, UserCreationForm
 
 class EventInline(admin.TabularInline):
 	model = Event
 	extra = 0
 
 class SmasherAdmin(admin.ModelAdmin):
+	form = UserChangeForm
+	add_form = UserCreationForm
 	fields = ['email', 'name_first', 'name_last', 'gamer_tag', 'last_login']
 	list_display = ('email', 'name_first', 'name_last', 'gamer_tag')
 	inlines = [EventInline]

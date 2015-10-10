@@ -3,9 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 from .models import Smasher, Event
-from .forms import EventCreateForm
+from .forms import EventCreateForm, UserCreationForm
 
 # Create your views here.
 
@@ -15,24 +16,30 @@ def index(request):
 def main(request):
 	return render(request, 'web/main.html')
 
+@login_required
 def event_window(request):
 	return render(request, 'web/event_window.html')
 
+@login_required
 def event_details(request):
 	return render(request, 'web/event_details.html')
 
+@login_required
 def my_events(request):
 	return render(request, 'web/my_events.html')
 
+@login_required
 def menu(request):
 	return render(request, 'web/menu.html')
 
 def login(request):
 	return render(request, 'web/login.html')
 
+@login_required
 def event_search(request):
 	return render(request, 'web/event_search.html')
 
+@login_required
 def event_create(request):
 	if request.method == 'POST':
 		form = EventCreateForm(request.POST)
@@ -42,6 +49,16 @@ def event_create(request):
 	else:
 		form = EventCreateForm(initial={'start_time': timezone.now(), 'start_date': timezone.now()})
 	return render(request, 'web/event_create.html', {'form': form})
+
+def new_user(request):
+	if request.method == 'POST':
+		form = UserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('')
+	else:
+		form = UserCreationForm()
+	return render(request, 'web/new_user.html', {'form': form})
 
 class IndexView(generic.DetailView):
 	model = Smasher
