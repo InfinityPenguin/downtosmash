@@ -44,7 +44,7 @@ class Smasher(AbstractBaseUser):
 	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
 
-	events = models.ManyToManyField('Event') # many smashers may attend an event, and a smasher may attend many events
+	events = models.ManyToManyField('Event', through='Attendee') # many smashers may attend an event, and a smasher may attend many events
 	friends = models.ManyToManyField('self') # future plans: smashers may have many friends, and also be friends to many smashers
 
 	REQUIRED_FIELDS = ['name_first', 'name_last']
@@ -76,3 +76,18 @@ class Event(models.Model):
 
 	def __str__(self):
 		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date) + " at " + self.location
+
+class Attendee(models.Model):
+	STATUSES = (
+		('INT', 'Interested'),
+		('APR', 'Approved'),
+		('CON', 'Confirmed'),
+		('REJ', 'Rejected'),
+		('DEF', 'Default'),
+	)
+	person = models.ForeignKey(Smasher)
+	event = models.ForeignKey(Event)
+	status = models.CharField('Status', max_length=100, choices=STATUSES)
+
+	def __str__(self):
+		return str(self.person) + " going to " + str(self.event) + " with status: " + str(self.status)
