@@ -64,7 +64,7 @@ class Event(models.Model):
 	host = models.ForeignKey(Smasher) # many events may be hosted by a smasher
 
 	start_time = models.TimeField('Time')
-	start_date = models.TimeField('Date')
+	start_date = models.DateField('Date')
 	capacity = models.IntegerField('Capacity', default=0)
 	location = models.CharField(max_length=200)
 	notes = models.TextField('Notes', max_length=200, blank=True)

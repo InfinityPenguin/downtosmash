@@ -40,7 +40,7 @@ def event_create(request):
 			print(form['location'].value())
 			return HttpResponseRedirect('')
 	else:
-		form = EventCreateForm(initial={'start_time': timezone.now()})
+		form = EventCreateForm(initial={'start_time': timezone.now(), 'start_date': timezone.now()})
 	return render(request, 'web/event_create.html', {'form': form})
 
 class IndexView(generic.DetailView):
