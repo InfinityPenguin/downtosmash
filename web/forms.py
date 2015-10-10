@@ -24,7 +24,7 @@ class EventCreateForm(forms.ModelForm):
 class PasswordInput(forms.widgets.PasswordInput):
 	input_type = 'password'
 
-class LoginForm(models.ModelForm):
+class LoginForm(forms.ModelForm):
 	class Meta:
 		model = Smasher
 		fields = ['email',

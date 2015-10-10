@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
 from .models import Smasher, Event
-from .forms import EventCreateForm, UserCreationForm
+from .forms import EventCreateForm, UserCreationForm, LoginForm
 
 # Create your views here.
 
