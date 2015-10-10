@@ -1,8 +1,9 @@
 <!-- Draft up of event creation form for host-->
 <element title="text">Smashfest Details</element>
 {{ message }}
-<form action="{% url 'event_create' %}" method="post">
+<form action="{% url 'my_events' %}{{ event.id }}" method="post">
 	{% csrf_token %}
 	{{ form }}
 	<input type="submit" value="Submit" />
 </form>
+<a href="{% url 'my_events' %}{{ event.id }}/attendees"> Attendees </button>

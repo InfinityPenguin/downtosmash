@@ -75,4 +75,4 @@ class Event(models.Model):
 	notes = models.TextField('Notes', max_length=200, blank=True)
 
 	def __str__(self):
-		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date)
+		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date) + " at " + self.location
