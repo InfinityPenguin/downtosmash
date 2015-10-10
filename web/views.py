@@ -12,15 +12,12 @@ from .forms import EventCreateForm, UserCreationForm
 
 # Create your views here.
 
-def index(request):
-	return HttpResponse('Down to smash?')
-
 def main(request):
 	return render(request, 'web/main.html')
 
 @login_required
-def event_window(request):
-	return render(request, 'web/event_window.html')
+def event_view(request):
+	return render(request, 'web/event_view.html')
 
 @login_required
 def event_details(request):
@@ -28,7 +25,9 @@ def event_details(request):
 
 @login_required
 def my_events(request):
-	return render(request, 'web/my_events.html')
+	events = Event.objects.all().filter(host=request.user)
+	print(events)
+	return render(request, 'web/my_events.html', {'events': events})
 
 @login_required
 def menu(request):
