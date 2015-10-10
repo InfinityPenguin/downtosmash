@@ -42,9 +42,11 @@ def event_search(request):
 @login_required
 def event_create(request):
 	if request.method == 'POST':
-		form = EventCreateForm(request.user)
+		form = EventCreateForm(request.POST)
 		if form.is_valid():
-			form.save()
+			new_event = form.save(commit=False)
+			new_event.host = request.user
+			new_event.save()
 			message = 'Event created successfully'
 			return render(request, 'web/event_create.html', {'message': message})
 	else:
