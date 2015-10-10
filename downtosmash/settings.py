@@ -33,6 +33,13 @@ ALLOWED_HOSTS = []
 LOGIN_URL = '/login'
 AUTH_USER_MODEL = 'web.Smasher'
 LOGIN_URL = '/login/'
+# FACEBOOK_APP_ID = 1693451077558370
+# FACEBOOK_API_SECRET = 'e4888698a0a540c835937936aa528f70'
+# FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
+# AUTHENTICATION_BACKENDS = (
+#     'social_auth.backends.facebook.FacebookBackend',
+# )
 
 INSTALLED_APPS = (
     'django.contrib.admin',
