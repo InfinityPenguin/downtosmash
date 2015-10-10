@@ -4,9 +4,11 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 
 from .models import Smasher, Event
-from .forms import EventCreateForm, UserCreationForm, LoginForm
+from .forms import EventCreateForm, UserCreationForm
 
 # Create your views here.
 
@@ -32,13 +34,14 @@ def my_events(request):
 def menu(request):
 	return render(request, 'web/menu.html')
 
-def login(request):
+def user_login(request):
 	if request.method == 'POST':
-		form = LoginForm(request.POST)
+		form = AuthenticationForm(None, request.POST)
 		if form.is_valid():
-			return HttpResponseRedirect('')
+			login(request, form.get_user())
+			return HttpResponseRedirect(nextpage)
 	else:
-		form = LoginForm()
+		form = AuthenticationForm(None)
 	return render(request, 'web/login.html', {'form': form})
 
 @login_required
