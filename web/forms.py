@@ -24,15 +24,6 @@ class EventCreateForm(forms.ModelForm):
 class PasswordInput(forms.widgets.PasswordInput):
 	input_type = 'password'
 
-class LoginForm(forms.ModelForm):
-	class Meta:
-		model = Smasher
-		fields = ['email',
-					'password',
-					]
-		widgets = {'password': PasswordInput(),
-					}
-
 class UserCreationForm(forms.ModelForm):
 	"""A form for creating new users. Includes all the required
 	fields and gamer tag, plus a repeated password."""
