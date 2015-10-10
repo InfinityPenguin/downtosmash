@@ -9,6 +9,6 @@ urlpatterns = [
 	url(r'^menu/$', views.menu, name='menu'),
 	url(r'^login/$', views.user_login, name='user_login'),
 	url(r'^new_user/$', views.new_user, name='new_user'),
-	url(r'^event_view/$', views.event_view, name='event_view'),
 	url(r'^my_events/$', views.my_events, name='my_events'),
+	url(r'^my_events/(?P<event_id>[0-9]+)$', views.event_view, name='event_view'),
 ]

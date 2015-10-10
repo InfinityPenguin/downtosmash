@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core import serializers
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -16,8 +17,16 @@ def main(request):
 	return render(request, 'web/main.html')
 
 @login_required
-def event_view(request):
-	return render(request, 'web/event_view.html')
+def event_view(request, event_id):
+	event = get_object_or_404(Event, pk=event_id)
+	if request.method == 'POST':
+		form = EventCreateForm(request.POST, instance=event)
+		if form.is_valid():
+			form.save()
+			message = 'Event updated successfully'
+			return render(request, 'web/event_view.html', {'message': message})
+	form = EventCreateForm(instance=event)
+	return render(request, 'web/event_view.html', {'event': event, 'form': form})
 
 @login_required
 def event_details(request):
@@ -26,7 +35,6 @@ def event_details(request):
 @login_required
 def my_events(request):
 	events = Event.objects.all().filter(host=request.user)
-	print(events)
 	return render(request, 'web/my_events.html', {'events': events})
 
 @login_required
