@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 from .models import Smasher, Event
 from .forms import EventCreateForm
@@ -33,12 +34,14 @@ def login(request):
 def event_search(request):
 	return render(request, 'web/event_search.html')
 
+@login_required
 def event_create(request):
 	if request.method == 'POST':
-		form = EventCreateForm(request.POST)
+		form = EventCreateForm(request.user)
 		if form.is_valid():
-			print(form['location'].value())
-			return HttpResponseRedirect('')
+			form.save()
+			message = 'Event created successfully'
+			return render(request, 'web/event_create.html', {'message': message})
 	else:
 		form = EventCreateForm(initial={'start_time': timezone.now(), 'start_date': timezone.now()})
 	return render(request, 'web/event_create.html', {'form': form})
