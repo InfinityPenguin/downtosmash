@@ -79,11 +79,11 @@ class Event(models.Model):
 
 class Attendee(models.Model):
 	STATUSES = (
-		('INT', 'Interested'),
-		('APR', 'Approved'),
-		('CON', 'Confirmed'),
-		('REJ', 'Rejected'),
-		('DEF', 'Default'),
+		('IN', 'Interested'),
+		('AP', 'Approved'),
+		('CO', 'Confirmed'),
+		('RE', 'Rejected'),
+		('DE', 'Default'),
 	)
 	person = models.ForeignKey(Smasher)
 	event = models.ForeignKey(Event)
