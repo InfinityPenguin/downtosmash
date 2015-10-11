@@ -1,7 +1,7 @@
 <h1> Events </h1>
 <ul>
 {% for event in events %}
-<li><a href="{{ event.id }}"> {{ event }} </a></li>
+<li><a href="{{ event.id }}"> {{ event.location }} </a></li>
 {% endfor %}
 </ul>
 
@@ -18,72 +18,105 @@
         padding: 0;
       }
       #map {
-        height: 100%;
+        height: 80%;
       }
     </style>
   </head>
+
   <body>
     <div id="map"></div>
     <script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 6
+      });
+      var infoWindow = new google.maps.InfoWindow({map: map});
+      var geocoder = new google.maps.Geocoder();
 
-function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 6
-  });
-  var infoWindow = new google.maps.InfoWindow({map: map});
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
 
-  // Try HTML5 geolocation.
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+          // change this to geocoded address of all events
+          // var ltlng = [];
 
-        // change this to geocoded address of all events
-        var ltlng = [];
+          // Geocoding attempt
+          var event_data = {{ event_data|safe }};
+          for (object in event_data) {
+            geocoder.geocode({'address': event_data[object].fields.location}, function(results, status) {
+              if (status === google.maps.GeocoderStatus.OK) {
+                var marker = new google.maps.Marker({
+                  position: results[0].geometry.location,
+                  map: map
+                })
+              } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+              }
+            })
+          }
 
-        ltlng.push(new google.maps.LatLng(17.22, 78.28));
-        ltlng.push(new google.maps.LatLng(13.5, 79.2));
-        ltlng.push(new google.maps.LatLng(15.24, 77.16));
+          // event_locations = {{ event_locations }};
+          // widget.init(event_locations);
 
-        for (var i = 0; i <= ltlng.length; i++) {
+    // geocoder.geocode({ 'address': address }, function (results, status) {
+    //     if (status == google.maps.GeocoderStatus.OK) {
+    //         map.setCenter(results[0].geometry.location);
+    //         var marker = new google.maps.Marker({
+    //             map: map,
+    //             position: results[0].geometry.location
+    //         });
 
-            marker = new google.maps.Marker({
-                map: map,
-                position: ltlng[i]
-            });
+    //     }
+    //     else {
+    //         alert("Geocode was not successful for the following reason: " + status);
+    //     }
+    // });        
 
-            (function (i, marker) {
-                google.maps.event.addListener(marker, 'click', function () {
-                    if (!infowindow) {
-                        infowindow = new google.maps.InfoWindow();
-                    }
-                    infowindow.setContent("Message" + i);
-                    infowindow.open(map, marker);
-                });
-            })(i, marker);
+          // ltlng.push(new google.maps.LatLng(17.22, 78.28));
+          // ltlng.push(new google.maps.LatLng(13.5, 79.2));
+          // ltlng.push(new google.maps.LatLng(15.24, 77.16));
 
-        }
-      map.setCenter(pos);
-    }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
-}
+          // for (var i = 0; i <= ltlng.length; i++) {
+          //     marker = new google.maps.Marker({
+          //         map: map,
+          //         position: ltlng[i]
+          //     });
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-}
+          //     (function (i, marker) {
+          //         google.maps.event.addListener(marker, 'click', function () {
+          //             if (!infowindow) {
+          //                 infowindow = new google.maps.InfoWindow();
+          //             }
+          //             infowindow.setContent("Message" + i);
+          //             infowindow.open(map, marker);
+          //         });
+          //     })(i, marker);
+          // }
 
+          map.setCenter(pos);
+
+        }, function() {
+          handleLocationError(true, infoWindow, map.getCenter());
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.');
+    }
     </script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKt02goLexj09dB43nbCBs5arUzzu5N20&signed_in=true&callback=initMap"
         async defer>
     </script>
