@@ -15,36 +15,49 @@ function initMap() {
 center: {lat: -34.397, lng: 150.644},
 zoom: 6
 });
-var infoWindow = new google.maps.InfoWindow({map: map});
 var geocoder = new google.maps.Geocoder();
 
 // Try HTML5 geolocation.
 if (navigator.geolocation) {
 	navigator.geolocation.getCurrentPosition(function(position) {
-			var pos = {
-lat: position.coords.latitude,
-lng: position.coords.longitude
-};
+		var pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
 
-// change this to geocoded address of all events
-// var ltlng = [];
+    // Geocoding attempt
+    var event_data = {{ event_data|safe }};
+    var smasher_data = {{ smasher_data|safe }};
+    for (object in event_data) {
+      geocoder.geocode({'address': event_data[object].fields.location}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          console.log(event_data[object])
+          var host = event_data[object].fields.host; // hopefully this is always equal to the pk of the host
+          var smasher = smasher_data[host - 1]; // hopefully this is ordered by smasher pk's
+          var contentString = '<element title="text">Smashfest Details</element>' +
+            '<ul>' +
+            '<li> Hosted by: ' + smasher.fields.email + '</li>' +
+            '<li> Time: ' + event_data[object].fields.start_time + '</li>' +
+            '<li> Number Confirmed: ' + event_data[object].fields.num_confirmed + '</li>' +
+            '<li> Capacity: ' + event_data[object].fields.capacity + '</li>' +
+            '</ul>';
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+          var marker = new google.maps.Marker({
+            position: results[0].geometry.location,
+            map: map
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      })
+    }
 
-// Geocoding attempt
-var event_data = {{ event_data|safe }};
-for (object in event_data) {
-geocoder.geocode({'address': event_data[object].fields.location}, function(results, status) {
-	if (status === google.maps.GeocoderStatus.OK) {
-	var marker = new google.maps.Marker({
-position: results[0].geometry.location,
-map: map
-})
-	} else {
-	alert('Geocode was not successful for the following reason: ' + status);
-	}
-	})
-}
-
-map.setCenter(pos);
+  map.setCenter(pos);
 
 }, function() {
 	handleLocationError(true, infoWindow, map.getCenter());
