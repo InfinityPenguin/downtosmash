@@ -2,6 +2,7 @@ from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from django.utils import timezone
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.forms.widgets import HiddenInput
 
 from web.models import Smasher, Event, Attendee
 
@@ -83,6 +84,7 @@ class EventForm(forms.ModelForm):
 					'location',
 					'notes',
 					]
+		exclude = ['num_confirmed']
 		widgets = {
 				'start_time': html5_widgets.TimeInput(attrs={'placeholder': 'Time'}),
 					'start_date': html5_widgets.DateInput(attrs={'placeholder': 'Date'}),

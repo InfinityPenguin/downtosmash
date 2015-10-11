@@ -20,6 +20,9 @@ from .forms import EventForm, UserCreationForm, AttendeeForm, HostAttendeeForm
 def main(request):
 	return render(request, 'web/main.html')
 
+def about(request):
+	return render(request, 'web/team.html')	
+
 @login_required
 def event_view(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
