@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.generic.base import TemplateView
 
 from . import views
 
@@ -16,4 +17,5 @@ urlpatterns = [
 	url(r'^my_events/(?P<event_id>[0-9]+)/attendees$', views.attendees, name='attendees'),
 	url(r'^approve/$', views.approve_attendee, name='approve_attendee'),
 	url(r'^unconfirm/$', views.unconfirm_attendee, name='unconfirm_attendee'),
+	url(r'^team/$', TemplateView.as_view(template_name='team.html'), name='about'),
 ]

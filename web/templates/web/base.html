@@ -47,6 +47,13 @@
 					{% endif %}
 					</li>
 					<li class="header-section pull-right">
+					{% if user.is_authenticated %}						
+					<a href="{% url 'my_events' %}">My Events</a>
+					{% else %}
+					<!-- <a href="/register">Register</a> -->
+					{% endif %}
+					</li>										
+					<li class="header-section pull-right">
 					{% if user.is_authenticated %}
 					<a href="/myprofile">{{ user.first_name }} {{ user.last_name }}</a>
 					{% else %}

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% block content %}
 <!-- Draft up of user creation form-->
-<element title="text">New user</element>
+<!--
 <script>
 function statusChangeCallback(response) {
 	console.log('statusChangeCallback');
@@ -57,17 +57,32 @@ window.onload = function() {
  fjs.parentNode.insertBefore(js, fjs);
  }(document, 'script', 'facebook-jssdk'));
 </script>
+-->
+<div id="main-wrapper">
+	<div id="main-inner-wrapper">
+		<div id="content-wrapper">
+			<div id="content-header-wrapper">
+				<h1> Sign up </h1>
+				<form action="{% url 'new_user' %}" method="post">
+					{% csrf_token %}
+					{% for field in form %}
+						<div class='form-group'>
+							{{ field.label_tag }} {{ field }}
+						</div>
+					{% endfor %}
+					<input class='btn btn-success' type="submit" value="Submit" />
+				</form>
+				<!--
+				<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+				</fb:login-button>
 
-<form action="{% url 'new_user' %}" method="post">
-	{% csrf_token %}
-	{{ form }}
-	<input type="submit" value="Submit" />
-</form>
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
+				<button id="logout_button" disabled>Log out of FB</button>
 
-<button id="logout_button" disabled>Log out of FB</button>
-
-<div id="status">
+				<div id="status">
+				</div>
+				-->
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock content %}
