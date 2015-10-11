@@ -54,6 +54,8 @@ def menu(request):
 	return render(request, 'web/menu.html')
 
 def user_login(request):
+	if request.user != None:
+		return HttpResponseRedirect('/')
 	if request.method == 'POST':
 		form = AuthenticationForm(None, request.POST)
 		nextpage = request.GET.get('next')
