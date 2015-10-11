@@ -9,6 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.contrib.auth import authenticate, login, logout
+from django.forms.models import model_to_dict
 
 from .models import Smasher, Event, Attendee
 from .forms import EventForm, UserCreationForm, AttendeeForm, HostAttendeeForm
@@ -59,12 +60,32 @@ def unconfirm_attendee(request, attendee_id):
 def event_details(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
 	event_form = EventForm(instance=event)
-	attendee = get_attendee(event, request.user)
+	try:
+		attendee = Attendee.objects.get(user=request.user, event=event)
+	except Exception:
+		attendee = Attendee(user=request.user, event=event)
 	if request.method == 'POST':
 		form = AttendeeForm(request.POST, instance=attendee)
 		if form.is_valid():
-			form.save()
-			message = 'Status updated successfully'
+			success = False
+			message = ''
+			if form['status'].value() == 'CO':
+				if event.num_confirmed < event.capacity:
+					event.num_confirmed += 1
+					success = True
+					form.save()
+					event.save()
+			elif form['status'].value() == 'IN':
+				form.save()
+				try:
+					Attendee.objects.get(user=request.user, event=event)
+					event.num_confirmed -= 1
+					event.save()
+					success = True
+				except Exception:
+					pass
+			if success:
+				message = 'Status updated successfully'
 			return render(request, 'web/event_details.html', {'message': message})
 	attendee_form = AttendeeForm(instance=attendee)
 	return render(request, 'web/event_details.html', {'event': event, 'form': event_form, 'attendee': attendee, 'attendee_form': attendee_form})
@@ -137,10 +158,6 @@ def event_create(request):
 class IndexView(generic.DetailView):
 	model = Smasher
 	template_name = 'downtosmash/index.html'
-
-def get_attendee(event, user):
-	attendee = Attendee.objects.get(user=user, event=event)
-	return attendee
 
 def create_event(request, user_id):
 	pass
