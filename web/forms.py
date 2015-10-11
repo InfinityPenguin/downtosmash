@@ -3,22 +3,23 @@ from django.forms.extras.widgets import SelectDateWidget
 from django.utils import timezone
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from web.models import Smasher, Event
+from web.models import Smasher, Event, Attendee
 
 import html5.forms.widgets as html5_widgets
 
-class EventCreateForm(forms.ModelForm):
+class HostAttendeeForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(HostAttendeeForm, self).__init__(*args, **kwargs)
+		self.fields['status'].label = str(self.instance.user)
+		self.fields['status'].choices = (
+											('IN', 'Interested'),
+											('AP', 'Approved'),
+											('RE', 'Rejected'),
+										)
+
 	class Meta:
-		model = Event
-		fields = ['start_time',
-					'start_date',
-					'capacity',
-					'location',
-					'notes',
-					]
-		widgets = {'start_time': html5_widgets.TimeInput,
-					'start_date': html5_widgets.DateInput,
-					}
+		model = Attendee
+		fields = ['status']
 
 class UserCreationForm(forms.ModelForm):
 	"""A form for creating new users. Includes all the required
@@ -62,3 +63,21 @@ class UserChangeForm(forms.ModelForm):
 		# This is done here, rather than on the field, because the
 		# field does not have access to the initial value
 		return self.initial["password"]
+
+class EventForm(forms.ModelForm):
+	class Meta:
+		model = Event
+		fields = ['start_time',
+					'start_date',
+					'capacity',
+					'location',
+					'notes',
+					]
+		widgets = {'start_time': html5_widgets.TimeInput,
+					'start_date': html5_widgets.DateInput,
+					}
+
+class AttendeeForm(forms.ModelForm):
+	class Meta:
+		model = Attendee
+		fields = ['status',]
