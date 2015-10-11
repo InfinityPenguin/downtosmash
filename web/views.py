@@ -43,8 +43,7 @@ def attendees(request, event_id):
 		if formset.is_valid():
 			message = "Update successful"
 			formset.save()
-	else:
-		formset = AttendeeFormSet(queryset=attendee_list)
+	formset = AttendeeFormSet(queryset=attendee_list)
 	return render(request, 'web/attendees.html', {'formset': formset, 'event': event, 'message': message})
 
 @login_required
@@ -58,8 +57,25 @@ def event_details(request, event_id):
 	if request.method == 'POST':
 		form = AttendeeForm(request.POST, instance=attendee)
 		if form.is_valid():
-			form.save()
-			message = 'Status updated successfully'
+			success = False
+			message = ''
+			if form['status'].value() == 'CO':
+				if event.num_confirmed < event.capacity:
+					event.num_confirmed += 1
+					success = True
+					form.save()
+					event.save()
+			elif form['status'].value() == 'IN':
+				form.save()
+				try:
+					Attendee.objects.get(user=request.user, event=event)
+					event.num_confirmed -= 1
+					event.save()
+					success = True
+				except Exception:
+					pass
+			if success:
+				message = 'Status updated successfully'
 			return render(request, 'web/event_details.html', {'message': message})
 	attendee_form = AttendeeForm(instance=attendee)
 	return render(request, 'web/event_details.html', {'event': event, 'form': event_form, 'attendee': attendee, 'attendee_form': attendee_form})

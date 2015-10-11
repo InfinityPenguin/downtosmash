@@ -71,6 +71,7 @@ class Event(models.Model):
 	start_time = models.TimeField('Time', default=timezone.now)
 	start_date = models.DateField('Date', default=timezone.now)
 	capacity = models.IntegerField('Capacity', default=0)
+	num_confirmed = models.IntegerField('Number Confirmed', default=0)
 	location = models.CharField(max_length=200)
 	notes = models.TextField('Notes', max_length=200, blank=True)
 

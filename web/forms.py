@@ -14,7 +14,6 @@ class HostAttendeeForm(forms.ModelForm):
 		self.fields['status'].choices = (
 											('IN', 'Interested'),
 											('AP', 'Approved'),
-											('RE', 'Rejected'),
 										)
 
 	class Meta:
@@ -78,6 +77,13 @@ class EventForm(forms.ModelForm):
 					}
 
 class AttendeeForm(forms.ModelForm):
+	NOT_APPROVED = ( ('IN', 'Interested'),)
+	APPROVED = ( ('CO', 'Confirmed'),)
+	def __init__(self, *args, **kwargs):
+		super(AttendeeForm, self).__init__(*args, **kwargs)
+		self.fields['status'].label = str(self.instance.user)
+		self.fields['status'].choices = AttendeeForm.APPROVED if self.instance.status == 'AP' else AttendeeForm.NOT_APPROVED
+
 	class Meta:
 		model = Attendee
 		fields = ['status',]
