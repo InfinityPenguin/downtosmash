@@ -3,9 +3,14 @@ from django.forms.extras.widgets import SelectDateWidget
 from django.utils import timezone
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from web.models import Smasher, Event
+from web.models import Smasher, Event, Attendee
 
 import html5.forms.widgets as html5_widgets
+
+class AttendeeManageForm(forms.ModelForm):
+	class Meta:
+		model = Attendee
+		fields = ['person', 'status'] 
 
 class EventCreateForm(forms.ModelForm):
 	class Meta:
