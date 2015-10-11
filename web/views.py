@@ -41,10 +41,15 @@ def attendees(request, event_id):
 	if request.method == 'POST':
 		formset = AttendeeFormSet(request.POST, request.FILES)
 		if formset.is_valid():
+			for form in formset:
+				attendee = get_object_or_404(Attendee, id=form['id'].value())
+				if attendee.status == 'CO' and form['status'].value() == 'IN':
+					event.num_confirmed -= 1
 			message = "Update successful"
+			event.save()
 			formset.save()
 	formset = AttendeeFormSet(queryset=attendee_list)
-	return render(request, 'web/attendees.html', {'formset': formset, 'event': event, 'message': message})
+	return render(request, 'web/attendees.html', {'formsetnum': len(formset), 'formset': formset, 'event': event, 'message': message})
 
 @login_required
 def approve_attendee(request, attendee_id):
