@@ -1,11 +1,15 @@
-<h1> Attendees for {{ event }}</h1>
-{{ message }}
-{% if formsetnum %}
-<form action="{% url 'attendees' event.id %}" method="post">
-	{% csrf_token %}
-	<table>
-		{{ formset }}
-	</table>
-	<input type="submit" value="Update" />
-</form>
+{% extends 'web/base.html' %}
+{% load staticfiles %}
+{% block content %}
+	<h1> Attendees for {{ event }}</h1>
+	{{ message }}
+	{% if formsetnum %}
+	<form action="{% url 'attendees' event.id %}" method="post">
+		{% csrf_token %}
+		<table>
+			{{ formset }}
+		</table>
+		<input type="submit" value="Update" />
+	</form>
 {% endif %}
+{% endblock content %}
