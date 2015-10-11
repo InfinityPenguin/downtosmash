@@ -1,0 +1,15 @@
+<!-- Draft up of event creation form for host-->
+<element title="text">Smashfest Details</element>
+{{ message }}
+<ul>
+	<li> Hosted by: {{ event.host }} </li>
+	{% for field in form %}
+		<li> {{ field.label }}: {{ field.value }} </li>
+	{% endfor %}
+</ul>
+<form action="" method="post">
+	{% csrf_token %}
+	{{ attendee_form }}
+	<input type="submit" value="Submit" />
+</form>
+<a href="{% url 'event_search' %}">My Events</a>
