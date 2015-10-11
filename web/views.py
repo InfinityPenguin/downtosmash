@@ -8,8 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 
-from .models import Smasher, Event
+from .models import Smasher, Event, Attendee
 from .forms import EventCreateForm, UserCreationForm, AttendeeManageForm
 
 # Create your views here.
@@ -33,12 +34,17 @@ def event_view(request, event_id):
 @login_required
 def attendees(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
-	attendee_list = Smasher.objects.all().filter(events__id=event_id)
+	attendee_list = Smasher.objects.filter(events__id=event_id)
+	AttendeeFormSet = modelformset_factory(Attendee, fields=('person','status'))
 	if request.method == 'POST':
-		AttendeeFormSet = formset_factory(AttendeeManageForm)
 		formset = AttendeeFormSet(request.POST, request.FILES)
+		if formset.is_valid():
+			for form in formset:
+				form.save(update_fields=['status'])
+	else:
+		formset = AttendeeFormSet(queryset=attendee_list)
 	print(str(attendee_list))
-	return render(request, 'web/attendees.html', {'attendees': attendee_list, 'event': event})
+	return render(request, 'web/attendees.html', {'formset': formset, 'event': event})
 
 @login_required
 def event_details(request, event_id):

@@ -1,6 +1,6 @@
 <h1> Attendees for {{ event }}</h1>
-<ul>
-{% for attendee in attendees %}
-<li> {{ attendee }} </li>
-{% endfor %}
-</ul>
+<form action="{% url 'attendees' event.id %}" method="post">
+	<table>
+		{{ formset }}
+	</table>
+</form>
