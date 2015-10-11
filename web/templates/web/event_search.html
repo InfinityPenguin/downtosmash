@@ -8,12 +8,12 @@
 	{% endfor %}
 </ul>
 
-<div id="map" style="height: 80%"></div>
+<div id="map" style="height: 85%"></div>
 <script>
 function initMap() {
 	var map = new google.maps.Map(document.getElementById('map'), {
 center: {lat: -34.397, lng: 150.644},
-zoom: 6
+zoom: 16
 });
 var infoWindow = new google.maps.InfoWindow({map: map});
 var geocoder = new google.maps.Geocoder();
@@ -36,7 +36,8 @@ geocoder.geocode({'address': event_data[object].fields.location}, function(resul
 	if (status === google.maps.GeocoderStatus.OK) {
 	var marker = new google.maps.Marker({
 position: results[0].geometry.location,
-map: map
+map: map,
+	animation: google.maps.Animation.DROP
 })
 	} else {
 	alert('Geocode was not successful for the following reason: ' + status);

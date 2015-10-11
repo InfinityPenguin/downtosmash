@@ -72,7 +72,7 @@ table {
   background-color: #fff;
   // margin: 20px auto;
   margin: 0px auto;
-  padding: 10% 30% 10%;
+  padding: 0;
   height: 600px;
   box-shadow: 0 0 10px #bfbeba;
   -moz-box-shadow: 0 0 10px #bfbeba;
@@ -84,15 +84,16 @@ table {
 }
 
 #content-header-wrapper {
-  padding: 10px 30px 0px;
+  padding: 5% 35%;
 }
 
 #content-header-wrapper h1 {
-  width: 600px;
-  margin: 10px auto 10px auto;
+	width: 100%;
+  //margin: 10px auto 10px auto;
   font-weight: 700;
   text-align: center;
   font-size: 24px;
+  margin-bottom: 20px;
 }
 
 #content-header-wrapper p {

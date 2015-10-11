@@ -89,7 +89,7 @@ class EventForm(forms.ModelForm):
 					'num_confirmed': forms.NumberInput(attrs={'placeholder': 'Number confirmed'}),
 					'location': forms.TextInput(attrs={'placeholder': 'Location'}),
 					'capacity': forms.NumberInput(attrs={'placeholder': 'Capacity'}),
-					'notes': forms.Textarea(attrs={'placeholder': 'Notes'}),
+					'notes': forms.TextInput(attrs={'placeholder': 'Notes'}),
 					}
 
 class AttendeeForm(forms.ModelForm):
