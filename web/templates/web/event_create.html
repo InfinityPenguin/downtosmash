@@ -1,7 +1,7 @@
 <!-- Draft up of event creation form for host-->
 <element title="text">Smashfest Details</element>
 {% if message %}
-	{{ message }}
+	{{ message }} <br>
 	<a href="{% url 'main' %}">Home</a>
 {% else %}
 	<form action="{% url 'event_create' %}" method="post">

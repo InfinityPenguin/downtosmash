@@ -49,7 +49,7 @@ def attendees(request, event_id):
 			event.save()
 			formset.save()
 	formset = AttendeeFormSet(queryset=attendee_list)
-	return render(request, 'web/attendees.html', {'formset': formset, 'event': event, 'message': message})
+	return render(request, 'web/attendees.html', {'formsetnum': len(formset), 'formset': formset, 'event': event, 'message': message})
 
 @login_required
 def approve_attendee(request, attendee_id):

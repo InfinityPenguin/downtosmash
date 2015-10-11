@@ -1,6 +1,6 @@
 <h1> Attendees for {{ event }}</h1>
 {{ message }}
-{% if formset %}
+{% if formsetnum %}
 <form action="{% url 'attendees' event.id %}" method="post">
 	{% csrf_token %}
 	<table>
