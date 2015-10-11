@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
@@ -29,6 +30,10 @@ class SmasherManager(BaseUserManager):
 		return self._create_user(email, name_first, name_last, password, True, gamer_tag)
 
 class Smasher(AbstractBaseUser):
+	class Meta:
+		verbose_name = "smasher"
+		verbose_name_plural = "smashers"
+	
 	email = models.EmailField(unique=True)
 	USERNAME_FIELD = 'email'
 	
@@ -39,7 +44,7 @@ class Smasher(AbstractBaseUser):
 	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
 
-	events = models.ManyToManyField('Event') # many smashers may attend an event, and a smasher may attend many events
+	events = models.ManyToManyField('Event', through='Attendee') # many smashers may attend an event, and a smasher may attend many events
 	friends = models.ManyToManyField('self') # future plans: smashers may have many friends, and also be friends to many smashers
 
 	REQUIRED_FIELDS = ['name_first', 'name_last']
@@ -61,13 +66,28 @@ class Smasher(AbstractBaseUser):
 		return self.is_admin
 
 class Event(models.Model):
-	host = models.ForeignKey(Smasher) # many events may be hosted by a smasher
+	host = models.ForeignKey(settings.AUTH_USER_MODEL) # many events may be hosted by a smasher
 
-	start_time = models.TimeField('Time')
-	start_date = models.DateField('Date')
+	start_time = models.TimeField('Time', default=timezone.now)
+	start_date = models.DateField('Date', default=timezone.now)
 	capacity = models.IntegerField('Capacity', default=0)
 	location = models.CharField(max_length=200)
 	notes = models.TextField('Notes', max_length=200, blank=True)
 
 	def __str__(self):
-		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date)
+		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date) + " at " + self.location
+
+class Attendee(models.Model):
+	STATUSES = (
+		('INT', 'Interested'),
+		('APR', 'Approved'),
+		('CON', 'Confirmed'),
+		('REJ', 'Rejected'),
+		('DEF', 'Default'),
+	)
+	person = models.ForeignKey(Smasher)
+	event = models.ForeignKey(Event)
+	status = models.CharField('Status', max_length=100, choices=STATUSES)
+
+	def __str__(self):
+		return str(self.person) + " going to " + str(self.event) + " with status: " + str(self.status)

@@ -15,7 +15,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -27,10 +26,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 AUTH_USER_MODEL = 'web.Smasher'
+LOGIN_URL = '/login/'
+# FACEBOOK_APP_ID = 1693451077558370
+# FACEBOOK_API_SECRET = 'e4888698a0a540c835937936aa528f70'
+# FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
+# AUTHENTICATION_BACKENDS = (
+#     'social_auth.backends.facebook.FacebookBackend',
+# )
 
 INSTALLED_APPS = (
     'django.contrib.admin',
