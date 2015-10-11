@@ -5,10 +5,13 @@ from django.core import serializers
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+<<<<<<< HEAD
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
+=======
+from django.contrib.auth import authenticate, login, logout
+>>>>>>> master
 
 from .models import Smasher, Event, Attendee
 from .forms import EventCreateForm, UserCreationForm, AttendeeManageForm
@@ -49,7 +52,8 @@ def attendees(request, event_id):
 @login_required
 def event_details(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
-	return render(request, 'web/event_details.html', {'event': event})
+	form = EventCreateForm(instance=event)
+	return render(request, 'web/event_details.html', {'event': event, 'form': form})
 
 @login_required
 def my_events(request):
@@ -73,6 +77,12 @@ def user_login(request):
 		return render(request, 'web/login.html', {'form': form, 'next': request.GET.get('next')})
 	else:
 		return HttpResponseRedirect('/')
+
+def user_logout(request):
+	logout(request)
+	# Redirect to logout successful
+	message = "Logout successful"
+	return render(request, 'web/login.html', {'message': message})
 
 @login_required
 def event_search(request):

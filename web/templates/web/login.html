@@ -5,6 +5,7 @@
 {% else %}
 <form action="{% url 'main' %}" method="post">
 {% endif %}
+	{{ message }} <!-- Logout successful messgage -->
 	{% csrf_token %}
 	{{ form }}
 	<input type="submit" value="Login" />
