@@ -2,12 +2,23 @@
 {% load staticfiles %}
 {% block content %}
 <!-- Draft up of event creation form for host-->
-<element title="text">Smashfest Details</element>
-{{ message }}
-<form action="{% url 'my_events' %}{{ event.id }}" method="post">
-	{% csrf_token %}
-	{{ form }}
-	<input type="submit" value="Submit" />
-</form>
-<a href="{% url 'my_events' %}{{ event.id }}/attendees"> Attendees </button>
+<div id="main-wrapper">
+	<div id="main-inner-wrapper">
+		<div id="content-wrapper">
+			<div id="content-header-wrapper">
+				{{ message }}
+				<form action="{% url 'my_events' %}{{ event.id }}" method="post">
+					{% csrf_token %}
+					{% for field in form %}
+					<div class='form-group'>
+						{{ field.label_tag }} {{ field }}
+					</div>
+					{% endfor %}
+					<input class='btn btn-success' type="submit" value="Submit" />
+				</form>
+				<input class='btn btn-info' type="button" onclick="location.href='{% url 'my_events' %}{{ event.id }}/attendees';" value="Attendees"/>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock content %}

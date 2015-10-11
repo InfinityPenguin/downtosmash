@@ -1,18 +1,31 @@
 {% extends 'web/base.html' %}
 {% load staticfiles %}
 {% block content %}
-<element title="text">Smashfest Details</element>
-{{ message }}
-<ul>
-	<li> Hosted by: {{ event.host }} </li>
-	{% for field in form %}
-		<li> {{ field.label }}: {{ field.value }} </li>
-	{% endfor %}
-</ul>
-<form action="" method="post">
-	{% csrf_token %}
-	{{ attendee_form }}
-	<input type="submit" value="Submit" />
-</form>
-<a href="{% url 'event_search' %}">My Events</a>
+<div id="main-wrapper">
+	<div id="main-inner-wrapper">
+		<div id="content-wrapper">
+			<div id="content-header-wrapper">
+				{{ message }}
+				<h1> Hosted by {{ event.host }} </h1>
+				<form>
+					<fieldset disabled>
+						{% for field in form %}
+						<div class='form-group'>
+							{{ field.label }} {{ field }}
+						</div>
+						{% endfor %}
+					</fieldset>
+				</form>
+				<form action="" method="post">
+					{% csrf_token %}
+					<div class='form-group'>
+						{{ attendee_form.status }}
+					</div>
+					<input class='btn btn-success' type="submit" value="Submit" />
+				</form>
+				<input class='btn btn-warning' type="button" onclick="location.href='{% url 'event_search' %}';" value="Back to Search"/>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock content %}

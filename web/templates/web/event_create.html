@@ -6,8 +6,7 @@
 		<div id="content-wrapper">
 			<div id="content-header-wrapper">
 				<h1> Create a smash fest </h1>
-				{% if message %}
-				{{ message }} <br>
+				{{ message }}
 				<a href="{% url 'main' %}">Home</a>
 				{% else %}
 				<form action="{% url 'event_create' %}" method="post">
