@@ -5,7 +5,7 @@ from django.core import serializers
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 
 from .models import Smasher, Event
@@ -63,6 +63,12 @@ def user_login(request):
 		return render(request, 'web/login.html', {'form': form, 'next': request.GET.get('next')})
 	else:
 		return HttpResponseRedirect('/')
+
+def user_logout(request):
+	logout(request)
+	# Redirect to logout successful
+	message = "Logout successful"
+	return render(request, 'web/login.html', {'message': message})
 
 @login_required
 def event_search(request):
