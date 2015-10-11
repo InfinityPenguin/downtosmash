@@ -83,6 +83,7 @@ class EventForm(forms.ModelForm):
 					'location',
 					'notes',
 					]
+		exclude = ['num_confirmed']
 		widgets = {
 				'start_time': html5_widgets.TimeInput(attrs={'placeholder': 'Time'}),
 					'start_date': html5_widgets.DateInput(attrs={'placeholder': 'Date'}),
