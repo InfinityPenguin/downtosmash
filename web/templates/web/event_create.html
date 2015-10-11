@@ -1,12 +1,15 @@
-<!-- Draft up of event creation form for host-->
-<element title="text">Smashfest Details</element>
-{% if message %}
-	{{ message }} <br>
-	<a href="{% url 'main' %}">Home</a>
-{% else %}
-	<form action="{% url 'event_create' %}" method="post">
-		{% csrf_token %}
-		{{ form }}
-		<input type="submit" value="Submit" />
-	</form>
-{% endif %}
+{% extends 'web/base.html' %}
+{% load staticfiles %}
+{% block content %}
+	<element title="text">Smashfest Details</element>
+	{% if message %}
+		{{ message }} <br>
+		<a href="{% url 'main' %}">Home</a>
+	{% else %}
+		<form action="{% url 'event_create' %}" method="post">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Submit" />
+		</form>
+	{% endif %}
+{% endblock content %}

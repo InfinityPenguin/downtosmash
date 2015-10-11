@@ -33,8 +33,8 @@ class HostAttendeeForm(forms.ModelForm):
 class UserCreationForm(forms.ModelForm):
 	"""A form for creating new users. Includes all the required
 	fields and gamer tag, plus a repeated password."""
-	password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-	password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+	password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+	password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password'}))
 
 	class Meta:
 		model = Smasher
@@ -83,8 +83,13 @@ class EventForm(forms.ModelForm):
 					'location',
 					'notes',
 					]
-		widgets = {'start_time': html5_widgets.TimeInput,
-					'start_date': html5_widgets.DateInput,
+		widgets = {
+				'start_time': html5_widgets.TimeInput(attrs={'placeholder': 'Time'}),
+					'start_date': html5_widgets.DateInput(attrs={'placeholder': 'Date'}),
+					'num_confirmed': forms.NumberInput(attrs={'placeholder': 'Number confirmed'}),
+					'location': forms.TextInput(attrs={'placeholder': 'Location'}),
+					'capacity': forms.NumberInput(attrs={'placeholder': 'Capacity'}),
+					'notes': forms.Textarea(attrs={'placeholder': 'Notes'}),
 					}
 
 class AttendeeForm(forms.ModelForm):

@@ -1,4 +1,6 @@
-<!-- Draft up of event creation form for host-->
+{% extends 'web/base.html' %}
+{% load staticfiles %}
+{% block content %}
 <element title="text">Smashfest Details</element>
 {{ message }}
 <ul>
@@ -13,3 +15,4 @@
 	<input type="submit" value="Submit" />
 </form>
 <a href="{% url 'event_search' %}">My Events</a>
+{% endblock content %}

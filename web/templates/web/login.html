@@ -1,13 +1,23 @@
-<!-- Draft up of event creation form for host-->
-<element title="text">Login</element>
-{% if next %}
-<form action="{% url 'user_login' %}?next={{next}}" method="post">
-{% else %}
-<form action="{% url 'main' %}" method="post">
-{% endif %}
-	{{ message }} <!-- Logout successful messgage -->
-	{% csrf_token %}
-	{{ form }}
-	<input type="submit" value="Login" />
-</form>
-<a href="{% url 'new_user' %}">New User?</a>
+{% extends 'web/base.html' %}
+{% load staticfiles %}
+{% block content %}
+	<div id='login'>
+		<!-- MAIN -->
+		{% if next %}
+			<form action="{% url 'user_login' %}?next={{next}}" method="post">
+		{% else %}
+			<form action="{% url 'main' %}" method="post">
+		{% endif %}
+			{{ message }} <!-- Logout successful messgage -->
+			{% csrf_token %}
+				{% for field in form %}
+					<div class='form-group'>
+						{{ field.label_tag }} {{ field }}
+					</div>
+				{% endfor %}
+			<input class='btn btn-success' type="submit" value="Login" />
+		</form>
+		<input class='btn btn-info' type="button" onclick="location.href='{% url 'new_user' %}';" value="New User?"/>
+		<!-- ENDS MAIN -->
+	</div>
+{% endblock content %}
