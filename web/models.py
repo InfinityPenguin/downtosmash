@@ -73,7 +73,7 @@ class Event(models.Model):
 	capacity = models.IntegerField('Capacity', default=0)
 	num_confirmed = models.IntegerField('Number Confirmed', default=0)
 	location = models.CharField(max_length=200)
-	notes = models.TextField('Notes', max_length=200, blank=True)
+	notes = models.CharField('Notes', max_length=200, blank=True)
 
 	def __str__(self):
 		return str(self.host) + ': ' + str(self.start_time) + " on " + str(self.start_date) + " at " + self.location

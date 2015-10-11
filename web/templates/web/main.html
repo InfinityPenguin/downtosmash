@@ -1,7 +1,15 @@
 {% extends 'web/base.html' %}
 {% load staticfiles %}
 {% block content %}
-	<a href="{% url 'event_create' %}">Create</a>
-	<a href="{% url 'event_search' %}">Search</a>
-	<a href="{% url 'my_events' %}">My Events</a>
+<div id="main-wrapper">
+	<div id="main-inner-wrapper">
+		<div id="content-wrapper">
+			<div id="content-header-wrapper">
+				<input class='btn btn-success' type="button" onclick="location.href='{% url 'event_create' %}';" value="Create"/>
+				<input class='btn btn-info' type="button" onclick="location.href='{% url 'event_search' %}';" value="Search"/>
+				<input class='btn btn-warning' type="button" onclick="location.href='{% url 'my_events' %}';" value="My Events"/>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock content %}
