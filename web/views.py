@@ -144,14 +144,9 @@ def new_user(request):
 @login_required
 def event_search(request):
 	events = Event.objects.all()
-	event_data = serializers.serialize("json", events, fields=('location'))
-	# event_locations = []
-	# for event in events:
-	# 	event_locations.append(event.location)
-	# js_data = json.dumps(event_locations)
-
-	# return render_template_to_response(request, 'web/event_search.html', {"event_locations": js_data}, {'events': events})
-	return render(request, 'web/event_search.html', {'events': events, 'event_data': event_data})
+	event_data = serializers.serialize("json", events)
+	smasher_data = serializers.serialize("json", Smasher.objects.all())
+	return render(request, 'web/event_search.html', {'events': events, 'event_data': event_data, 'smasher_data': smasher_data})
 
 @login_required
 def event_create(request):
