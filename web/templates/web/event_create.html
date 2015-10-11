@@ -6,18 +6,18 @@
 		<div id="content-wrapper">
 			<div id="content-header-wrapper">
 				<h1> Create a smash fest </h1>
-				{{ message }}
-				<a href="{% url 'main' %}">Home</a>
+				{% if message %}
+					{{ message }}
 				{% else %}
-				<form action="{% url 'event_create' %}" method="post">
-					{% csrf_token %}
-					{% for field in form %}
-					<div class='form-group'>
-						{{ field.label_tag }} {{ field }}
-					</div>
-					{% endfor %}
-					<input class='btn btn-success' type="submit" value="Submit" />
-				</form>
+					<form action="{% url 'event_create' %}" method="post">
+						{% csrf_token %}
+						{% for field in form %}
+						<div class='form-group'>
+							{{ field.label_tag }} {{ field }}
+						</div>
+						{% endfor %}
+						<input class='btn btn-success' type="submit" value="Submit" />
+					</form>
 				{% endif %}
 			</div>
 		</div>

@@ -5,7 +5,9 @@
 	<div id="main-inner-wrapper">
 		<div id="content-wrapper">
 			<div id="content-header-wrapper">
-				{{ message }}
+				{% if message %}
+					{{ message }}
+				{% else %}
 				<h1> Hosted by {{ event.host }} </h1>
 				<form>
 					<fieldset disabled>
@@ -23,6 +25,7 @@
 					</div>
 					<input class='btn btn-success' type="submit" value="Submit" />
 				</form>
+				{% endif %}
 				<input class='btn btn-warning' type="button" onclick="location.href='{% url 'event_search' %}';" value="Back to Search"/>
 			</div>
 		</div>

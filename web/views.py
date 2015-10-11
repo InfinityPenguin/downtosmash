@@ -81,14 +81,14 @@ def event_details(request, event_id):
 					form.save()
 					event.save()
 			elif form['status'].value() == 'IN':
-				form.save()
 				try:
 					Attendee.objects.get(user=request.user, event=event)
 					event.num_confirmed -= 1
 					event.save()
-					success = True
 				except Exception:
 					pass
+				success = True
+				form.save()
 			if success:
 				message = 'Status updated successfully'
 			return render(request, 'web/event_details.html', {'message': message})
