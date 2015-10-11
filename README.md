@@ -3,10 +3,10 @@ An application that allows users to create, manage, and find nearby events for i
 HackJam, CalHacks 2.0 2015 Project
 
 To try locally, you must have pip alongside a working version.  Modern versions of Python come with pip.  See http://pip.readthedocs.org/en/stable/installing/ for more information
-1. run `** pip install django **`
-2. install dependencies: `** pip install django-html5 **`
-3. populate database: `** py manage.py makemigrations && py manage.py migrate **`
-4. run on http://localhost:8000/: `** py manage.py runserver **`
+1. run `pip install django`
+2. install dependencies: `pip install django-html5`
+3. populate database: `py manage.py makemigrations && py manage.py migrate`
+4. run on http://localhost:8000/: `py manage.py runserver`
 
 ## Inspiration
 The three of us love playing Super Smash Brothers together. Unlike many modern games, it cannot be played online: we must be physically present with each other to play.  It's often difficult to know when we're available, or where we'll be at any given time.  The bandwidth of asking, confirming, and scheduling meetups is often enough to deter us from playing.
