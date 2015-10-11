@@ -21,7 +21,7 @@ def main(request):
 	return render(request, 'web/main.html')
 
 def about(request):
-	return render(request, 'web/team.html')	
+	return render(request, 'web/team.html')
 
 @login_required
 def event_view(request, event_id):
