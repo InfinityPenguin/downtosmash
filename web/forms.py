@@ -7,6 +7,20 @@ from web.models import Smasher, Event, Attendee
 
 import html5.forms.widgets as html5_widgets
 
+class HostAttendeeForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(HostAttendeeForm, self).__init__(*args, **kwargs)
+		self.fields['status'].label = str(self.instance.user)
+		self.fields['status'].choices = (
+											('IN', 'Interested'),
+											('AP', 'Approved'),
+											('RE', 'Rejected'),
+										)
+
+	class Meta:
+		model = Attendee
+		fields = ['status']
+
 class UserCreationForm(forms.ModelForm):
 	"""A form for creating new users. Includes all the required
 	fields and gamer tag, plus a repeated password."""
