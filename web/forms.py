@@ -8,14 +8,23 @@ from web.models import Smasher, Event, Attendee
 import html5.forms.widgets as html5_widgets
 
 class HostAttendeeForm(forms.ModelForm):
+	UPDATE_STATUSES = (
+		('IN', 'Interested'),
+		('AP', 'Approved'),
+	)
+
+	CONFIRM_STATUSES = STATUSES = (
+		('IN', 'Interested'),
+		('CO', 'Confirmed'),
+	)
+
 	def __init__(self, *args, **kwargs):
 		super(HostAttendeeForm, self).__init__(*args, **kwargs)
 		self.fields['status'].label = str(self.instance.user)
-		self.fields['status'].choices = (
-											('IN', 'Interested'),
-											('AP', 'Approved'),
-											('RE', 'Rejected'),
-										)
+		if self.instance.status == 'CO':
+			self.fields['status'].choices = HostAttendeeForm.CONFIRM_STATUSES
+		else:
+			self.fields['status'].choices = HostAttendeeForm.UPDATE_STATUSES
 
 	class Meta:
 		model = Attendee
@@ -69,6 +78,7 @@ class EventForm(forms.ModelForm):
 		model = Event
 		fields = ['start_time',
 					'start_date',
+					'num_confirmed',
 					'capacity',
 					'location',
 					'notes',
@@ -78,6 +88,13 @@ class EventForm(forms.ModelForm):
 					}
 
 class AttendeeForm(forms.ModelForm):
+	NOT_APPROVED = ( ('IN', 'Interested'),)
+	APPROVED = ( ('CO', 'Confirmed'),)
+	def __init__(self, *args, **kwargs):
+		super(AttendeeForm, self).__init__(*args, **kwargs)
+		self.fields['status'].label = str(self.instance.user)
+		self.fields['status'].choices = AttendeeForm.APPROVED if self.instance.status == 'AP' else AttendeeForm.NOT_APPROVED
+
 	class Meta:
 		model = Attendee
 		fields = ['status',]

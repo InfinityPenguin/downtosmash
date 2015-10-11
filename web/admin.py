@@ -13,13 +13,13 @@ class HostedEventInline(admin.TabularInline):
 class SmasherAdmin(admin.ModelAdmin):
 	# form = UserChangeForm
 	add_form = UserCreationForm
-	fields = ['email', 'name_first', 'name_last', 'gamer_tag', 'last_login']
+	fields = ['email', 'password', 'name_first', 'name_last', 'gamer_tag', 'last_login']
 	list_display = ('email', 'name_first', 'name_last', 'gamer_tag')
 	inlines = [HostedEventInline]
 
 class EventAdmin(admin.ModelAdmin):
-	fields = ['host', 'start_time', 'start_date', 'capacity', 'location', 'notes']
-	list_display = ['host', 'start_time', 'start_date', 'capacity', 'location', 'notes']
+	fields = ['host', 'start_time', 'start_date', 'num_confirmed', 'capacity', 'location', 'notes']
+	list_display = ['host', 'start_time', 'start_date', 'num_confirmed', 'capacity', 'location', 'notes']
 	inlines = [AttendeesInline]
 
 # Register your models here.

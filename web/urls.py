@@ -14,4 +14,6 @@ urlpatterns = [
 	url(r'^my_events/$', views.my_events, name='my_events'),
 	url(r'^my_events/(?P<event_id>[0-9]+)$', views.event_view, name='event_view'),
 	url(r'^my_events/(?P<event_id>[0-9]+)/attendees$', views.attendees, name='attendees'),
+	url(r'^approve/$', views.approve_attendee, name='approve_attendee'),
+	url(r'^unconfirm/$', views.unconfirm_attendee, name='unconfirm_attendee'),
 ]
