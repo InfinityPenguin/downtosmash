@@ -13,6 +13,7 @@ from .forms import EventCreateForm, UserCreationForm
 
 # Create your views here.
 
+@login_required
 def main(request):
 	return render(request, 'web/main.html')
 
@@ -50,17 +51,18 @@ def menu(request):
 	return render(request, 'web/menu.html')
 
 def user_login(request):
-	if request.user != None:
-		return HttpResponseRedirect('/')
-	if request.method == 'POST':
-		form = AuthenticationForm(None, request.POST)
-		nextpage = request.GET.get('next')
-		if form.is_valid():
-			login(request, form.get_user())
-			return HttpResponseRedirect(nextpage)
+	if not request.user.is_authenticated():
+		if request.method == 'POST':
+			form = AuthenticationForm(None, request.POST)
+			nextpage = request.GET.get('next')
+			if form.is_valid():
+				login(request, form.get_user())
+				return HttpResponseRedirect(nextpage)
+		else:
+			form = AuthenticationForm(None)
+		return render(request, 'web/login.html', {'form': form, 'next': request.GET.get('next')})
 	else:
-		form = AuthenticationForm(None)
-	return render(request, 'web/login.html', {'form': form, 'next': request.GET.get('next')})
+		return HttpResponseRedirect('/')
 
 @login_required
 def event_search(request):
