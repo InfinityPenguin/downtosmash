@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Geolocation</title>
+    <title>Events</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -33,36 +33,6 @@ function initMap() {
   });
   var infoWindow = new google.maps.InfoWindow({map: map});
 
-
-  // var ltlng = [];
-
-  // ltlng.push(new google.maps.LatLng(17.22, 78.28));
-  // ltlng.push(new google.maps.LatLng(13.5, 79.2));
-  // ltlng.push(new google.maps.LatLng(15.24, 77.6));
-
-  // for (var i = 0; i <= ltlng.length; i++) {
-  //   marker = new google.maps.Marker({
-  //     map: map,
-  //     position: ltlng[i]
-  //   });
-  // }
-
-  // (function (i, marker) {
-
-  //   google.maps.event.addListener(marker, 'click', function () {
-
-  //     if (!infowindow) {
-  //       infowindow = new google.maps.InfoWindow();
-  //     }
-
-  //     infowindow.setContent("Message" + i);
-  //     infowindow.open(map, marker):
-  //   });
-
-  // })(i, marker);
-  
-
-// COMMENTED OUT GELOCATION
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -71,6 +41,7 @@ function initMap() {
         lng: position.coords.longitude
       };
 
+        // change this to geocoded address of all events
         var ltlng = [];
 
         ltlng.push(new google.maps.LatLng(17.22, 78.28));
@@ -78,32 +49,23 @@ function initMap() {
         ltlng.push(new google.maps.LatLng(15.24, 77.16));
 
         for (var i = 0; i <= ltlng.length; i++) {
+
             marker = new google.maps.Marker({
                 map: map,
                 position: ltlng[i]
             });
 
             (function (i, marker) {
-
                 google.maps.event.addListener(marker, 'click', function () {
-
                     if (!infowindow) {
                         infowindow = new google.maps.InfoWindow();
                     }
-
                     infowindow.setContent("Message" + i);
-
                     infowindow.open(map, marker);
-
                 });
-
             })(i, marker);
 
         }
-
-
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
       map.setCenter(pos);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
