@@ -85,9 +85,9 @@ class Attendee(models.Model):
 		('RE', 'Rejected'),
 		('DE', 'Default'),
 	)
-	person = models.ForeignKey(Smasher)
+	user = models.ForeignKey(Smasher)
 	event = models.ForeignKey(Event)
 	status = models.CharField('Status', max_length=100, choices=STATUSES)
 
 	def __str__(self):
-		return str(self.person) + " going to " + str(self.event) + " with status: " + str(self.status)
+		return str(self.user) + " going to " + str(self.event) + " with status: " + str(self.status)
