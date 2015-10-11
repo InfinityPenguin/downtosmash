@@ -2,6 +2,7 @@
 <element title="text">Smashfest Details</element>
 {% if message %}
 	{{ message }}
+	<a href="{% url 'main' %}">Home</a>
 {% else %}
 	<form action="{% url 'event_create' %}" method="post">
 		{% csrf_token %}
