@@ -2,7 +2,6 @@ from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from django.utils import timezone
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.forms.widgets import HiddenInput
 
 from web.models import Smasher, Event, Attendee
 
