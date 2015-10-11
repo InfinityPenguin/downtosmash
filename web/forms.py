@@ -7,10 +7,19 @@ from web.models import Smasher, Event, Attendee
 
 import html5.forms.widgets as html5_widgets
 
-class AttendeeManageForm(forms.ModelForm):
+class HostAttendeeForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(HostAttendeeForm, self).__init__(*args, **kwargs)
+		self.fields['status'].label = str(self.instance.person)
+		self.fields['status'].choices = (
+											('IN', 'Interested'),
+											('AP', 'Approved'),
+											('RE', 'Rejected'),
+										)
+
 	class Meta:
 		model = Attendee
-		fields = ['person', 'status'] 
+		fields = ['status']
 
 class EventCreateForm(forms.ModelForm):
 	class Meta:

@@ -6,15 +6,12 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-<<<<<<< HEAD
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-=======
 from django.contrib.auth import authenticate, login, logout
->>>>>>> master
 
 from .models import Smasher, Event, Attendee
-from .forms import EventCreateForm, UserCreationForm, AttendeeManageForm
+from .forms import EventCreateForm, UserCreationForm, HostAttendeeForm
 
 # Create your views here.
 
@@ -36,18 +33,19 @@ def event_view(request, event_id):
 
 @login_required
 def attendees(request, event_id):
+	message = ""
 	event = get_object_or_404(Event, pk=event_id)
-	attendee_list = Smasher.objects.filter(events__id=event_id)
-	AttendeeFormSet = modelformset_factory(Attendee, fields=('person','status'))
+	attendee_list = Attendee.objects.filter(event=event)
+	AttendeeFormSet = modelformset_factory(Attendee, form=HostAttendeeForm, extra=0)
 	if request.method == 'POST':
 		formset = AttendeeFormSet(request.POST, request.FILES)
 		if formset.is_valid():
-			for form in formset:
-				form.save(update_fields=['status'])
+			message = "Update successful"
+			formset.save()
 	else:
 		formset = AttendeeFormSet(queryset=attendee_list)
-	print(str(attendee_list))
-	return render(request, 'web/attendees.html', {'formset': formset, 'event': event})
+	# print([x for x in formset.get_queryset()])
+	return render(request, 'web/attendees.html', {'formset': formset, 'event': event, 'message': message})
 
 @login_required
 def event_details(request, event_id):
