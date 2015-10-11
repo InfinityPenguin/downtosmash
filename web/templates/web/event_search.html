@@ -71,11 +71,36 @@ function initMap() {
         lng: position.coords.longitude
       };
 
-      var userLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      new google.maps.Marker({
-        map: map,
-        position: userLatLng
-      })
+        var ltlng = [];
+
+        ltlng.push(new google.maps.LatLng(17.22, 78.28));
+        ltlng.push(new google.maps.LatLng(13.5, 79.2));
+        ltlng.push(new google.maps.LatLng(15.24, 77.16));
+
+        for (var i = 0; i <= ltlng.length; i++) {
+            marker = new google.maps.Marker({
+                map: map,
+                position: ltlng[i]
+            });
+
+            (function (i, marker) {
+
+                google.maps.event.addListener(marker, 'click', function () {
+
+                    if (!infowindow) {
+                        infowindow = new google.maps.InfoWindow();
+                    }
+
+                    infowindow.setContent("Message" + i);
+
+                    infowindow.open(map, marker);
+
+                });
+
+            })(i, marker);
+
+        }
+
 
       infoWindow.setPosition(pos);
       infoWindow.setContent('Location found.');
