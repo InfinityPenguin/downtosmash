@@ -21,7 +21,6 @@ class HostAttendeeForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(HostAttendeeForm, self).__init__(*args, **kwargs)
 		self.fields['status'].label = str(self.instance.user)
-		print(self.instance.status)
 		if self.instance.status == 'CO':
 			self.fields['status'].choices = HostAttendeeForm.CONFIRM_STATUSES
 		else:
