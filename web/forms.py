@@ -79,6 +79,7 @@ class EventForm(forms.ModelForm):
 		model = Event
 		fields = ['start_time',
 					'start_date',
+					'num_confirmed',
 					'capacity',
 					'location',
 					'notes',
