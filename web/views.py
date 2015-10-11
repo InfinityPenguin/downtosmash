@@ -42,9 +42,18 @@ def attendees(request, event_id):
 		if formset.is_valid():
 			message = "Update successful"
 			formset.save()
-	else:
-		formset = AttendeeFormSet(queryset=attendee_list)
+	formset = AttendeeFormSet(queryset=attendee_list)
 	return render(request, 'web/attendees.html', {'formset': formset, 'event': event, 'message': message})
+
+@login_required
+def approve_attendee(request, attendee_id):
+	attendee = get_object_or_404(Attendee, pk=attendee_id)
+	attendee.status = 'AP'
+
+@login_required
+def unconfirm_attendee(request, attendee_id):
+	attendee = get_object_or_404(Attendee, pk=attendee_id)
+	attendee.status = 'IN'
 
 @login_required
 def event_details(request, event_id):
