@@ -111,7 +111,6 @@ def user_login(request):
 			nextpage = request.GET.get('next')
 			if form.is_valid():
 				login(request, form.get_user())
-				print(str(form.get_user()))
 				return HttpResponseRedirect(nextpage)
 		else:
 			form = AuthenticationForm(None)
@@ -131,7 +130,6 @@ def new_user(request):
 			form = UserCreationForm(request.POST)
 			if form.is_valid():
 				form.save()
-				print(request.POST)
 				user = authenticate(username=request.POST['email'], password=request.POST['password1'])
 				login(request, user)
 				return HttpResponseRedirect('')

@@ -1,12 +1,32 @@
 {% extends 'web/base.html' %}
 {% load staticfiles %}
 {% block content %}
-<h1> Events </h1>
-<ul>
-	{% for event in events %}
-	<li><a href="{{ event.id }}"> {{ event.location }} </a></li>
-	{% endfor %}
-</ul>
+<div id="content-wrapper">
+<table class='table table-hover'>
+	<thead>
+		<tr>
+			<th> Location </th>
+			<th> Time </th>
+			<th> Date </th>
+			<th> Number Attending </th>
+			<th> Capacity </th>
+			<th> Notes </th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for event in events %}
+		<tr onclick="location.href='{{ event.id }}'">
+				<td> {{ event.location }} </td>
+				<td> {{ event.start_time }} </td>
+				<td> {{ event.start_date }} </td>
+				<td> {{ event.num_confirmed }} </td>
+				<td> {{ event.capacity }} </td>
+				<td> {{ event.notes }} </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
 
 <div id="map" style="height: 85%"></div>
 <script>
@@ -90,4 +110,5 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKt02goLexj09dB43nbCBs5arUzzu5N20&signed_in=true&callback=initMap"
 async defer>
 </script>
+</div>
 {% endblock content %}
