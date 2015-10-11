@@ -7,9 +7,9 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.formsets import formset_factory
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, model_to_dict
 from django.contrib.auth import authenticate, login, logout
-from django.forms.models import model_to_dict
+from django.core import serializers
 
 from .models import Smasher, Event, Attendee
 from .forms import EventForm, UserCreationForm, AttendeeForm, HostAttendeeForm
@@ -144,7 +144,14 @@ def new_user(request):
 @login_required
 def event_search(request):
 	events = Event.objects.all()
-	return render(request, 'web/event_search.html', {'events': events})
+	event_data = serializers.serialize("json", events, fields=('location'))
+	# event_locations = []
+	# for event in events:
+	# 	event_locations.append(event.location)
+	# js_data = json.dumps(event_locations)
+
+	# return render_template_to_response(request, 'web/event_search.html', {"event_locations": js_data}, {'events': events})
+	return render(request, 'web/event_search.html', {'events': events, 'event_data': event_data})
 
 @login_required
 def event_create(request):
