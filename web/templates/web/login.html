@@ -12,7 +12,7 @@
 						{% else %}
 						<form action="{% url 'main' %}" method="post">
 							{% endif %}
-							{{ message }} <!-- Logout successful messgage -->
+							<h1>{{ message }} <!-- Logout successful messgage --> </h1>
 							{% csrf_token %}
 							{% for field in form %}
 							<div class='form-group'>

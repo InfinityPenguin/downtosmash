@@ -7,7 +7,7 @@
 		<div id="content-wrapper">
 			<div id="content-header-wrapper">
 				{% if message %}
-					{{ message }}
+				<h1>	{{ message }} </h1>
 					<input class='btn btn-info' type="button" onclick="location.href='{% url 'my_events' %}';" value="My Events"/>
 				{% else %}
 				<form action="{% url 'my_events' %}{{ event.id }}" method="post">

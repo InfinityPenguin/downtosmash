@@ -7,7 +7,7 @@
 			<div id="content-header-wrapper">
 				<h1> Create a smash fest </h1>
 				{% if message %}
-					{{ message }}
+				<h1> {{ message }} </h1>
 				{% else %}
 					<form action="{% url 'event_create' %}" method="post">
 						{% csrf_token %}
