@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 
-from .models import Smasher, Event
-from .forms import EventCreateForm, UserCreationForm
+from .models import Smasher, Event, Attendee
+from .forms import EventForm, UserCreationForm, AttendeeForm
 
 # Create your views here.
 
@@ -21,26 +21,32 @@ def main(request):
 def event_view(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
 	if request.method == 'POST':
-		form = EventCreateForm(request.POST, instance=event)
+		form = EventForm(request.POST, instance=event)
 		if form.is_valid():
 			form.save()
 			message = 'Event updated successfully'
 			return render(request, 'web/event_view.html', {'message': message})
-	form = EventCreateForm(instance=event)
-	return render(request, 'web/event_view.html', {'event': event, 'form': form})
-
+	form = EventForm(instance=event)
+	return render(request, 'web/event_view.html', {'event': event, 'form': form}) 
 @login_required
 def attendees(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
 	attendee_list = Smasher.objects.all().filter(events__id=event_id)
-	print(str(attendee_list))
 	return render(request, 'web/attendees.html', {'attendees': attendee_list, 'event': event})
 
 @login_required
 def event_details(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
-	form = EventCreateForm(instance=event)
-	return render(request, 'web/event_details.html', {'event': event, 'form': form})
+	event_form = EventForm(instance=event)
+	attendee = get_attendee(event, request.user)
+	if request.method == 'POST':
+		form = AttendeeForm(request.POST, instance=attendee)
+		if form.is_valid():
+			form.save()
+			message = 'Status updated successfully'
+			return render(request, 'web/event_details.html', {'message': message})
+	attendee_form = AttendeeForm(instance=attendee)
+	return render(request, 'web/event_details.html', {'event': event, 'form': event_form, 'attendee': attendee, 'attendee_form': attendee_form})
 
 @login_required
 def my_events(request):
@@ -96,7 +102,7 @@ def event_search(request):
 @login_required
 def event_create(request):
 	if request.method == 'POST':
-		form = EventCreateForm(request.POST)
+		form = EventForm(request.POST)
 		if form.is_valid():
 			new_event = form.save(commit=False)
 			new_event.host = request.user
@@ -104,12 +110,16 @@ def event_create(request):
 			message = 'Event created successfully'
 			return render(request, 'web/event_create.html', {'message': message})
 	else:
-		form = EventCreateForm(initial={'start_time': timezone.now(), 'start_date': timezone.now()})
+		form = EventForm(initial={'start_time': timezone.now(), 'start_date': timezone.now()})
 	return render(request, 'web/event_create.html', {'form': form})
 
 class IndexView(generic.DetailView):
 	model = Smasher
 	template_name = 'downtosmash/index.html'
+
+def get_attendee(event, user):
+	attendee = Attendee.objects.get(user=user, event=event)
+	return attendee
 
 def create_event(request, user_id):
 	pass
