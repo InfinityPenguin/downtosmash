@@ -20,10 +20,6 @@ class EventCreateForm(forms.ModelForm):
 					'start_date': html5_widgets.DateInput,
 					}
 
-# overrides the text input type of 'password' to 'password'
-class PasswordInput(forms.widgets.PasswordInput):
-	input_type = 'password'
-
 class UserCreationForm(forms.ModelForm):
 	"""A form for creating new users. Includes all the required
 	fields and gamer tag, plus a repeated password."""

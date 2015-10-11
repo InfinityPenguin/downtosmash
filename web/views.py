@@ -5,8 +5,13 @@ from django.core import serializers
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+<<<<<<< HEAD
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+=======
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+>>>>>>> c644ea74b34550ead393dda988804f506d6f7b7a
 
 from .models import Smasher, Event
 from .forms import EventCreateForm, UserCreationForm
