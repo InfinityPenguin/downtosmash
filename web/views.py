@@ -47,6 +47,16 @@ def attendees(request, event_id):
 	return render(request, 'web/attendees.html', {'formset': formset, 'event': event, 'message': message})
 
 @login_required
+def approve_attendee(request, attendee_id):
+	attendee = get_object_or_404(Attendee, pk=attendee_id)
+	attendee.status = 'AP'
+
+@login_required
+def unconfirm_attendee(request, attendee_id):
+	attendee = get_object_or_404(Attendee, pk=attendee_id)
+	attendee.status = 'IN'
+
+@login_required
 def event_details(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
 	event_form = EventForm(instance=event)
