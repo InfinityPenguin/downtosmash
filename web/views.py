@@ -39,7 +39,8 @@ def attendees(request, event_id):
 @login_required
 def event_details(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
-	return render(request, 'web/event_details.html', {'event': event})
+	form = EventCreateForm(instance=event)
+	return render(request, 'web/event_details.html', {'event': event, 'form': form})
 
 @login_required
 def my_events(request):
