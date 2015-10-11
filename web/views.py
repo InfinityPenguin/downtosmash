@@ -58,6 +58,7 @@ def user_login(request):
 			nextpage = request.GET.get('next')
 			if form.is_valid():
 				login(request, form.get_user())
+				print(str(form.get_user()))
 				return HttpResponseRedirect(nextpage)
 		else:
 			form = AuthenticationForm(None)
@@ -70,6 +71,22 @@ def user_logout(request):
 	# Redirect to logout successful
 	message = "Logout successful"
 	return render(request, 'web/login.html', {'message': message})
+
+def new_user(request):
+	if not request.user.is_authenticated():
+		if request.method == 'POST':
+			form = UserCreationForm(request.POST)
+			if form.is_valid():
+				form.save()
+				print(request.POST)
+				user = authenticate(username=request.POST['email'], password=request.POST['password1'])
+				login(request, user)
+				return HttpResponseRedirect('')
+		else:
+			form = UserCreationForm()
+		return render(request, 'web/new_user.html', {'form': form})
+	else:
+		return HttpResponseRedirect('/')
 
 @login_required
 def event_search(request):
@@ -89,16 +106,6 @@ def event_create(request):
 	else:
 		form = EventCreateForm(initial={'start_time': timezone.now(), 'start_date': timezone.now()})
 	return render(request, 'web/event_create.html', {'form': form})
-
-def new_user(request):
-	if request.method == 'POST':
-		form = UserCreationForm(request.POST)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('')
-	else:
-		form = UserCreationForm()
-	return render(request, 'web/new_user.html', {'form': form})
 
 class IndexView(generic.DetailView):
 	model = Smasher
