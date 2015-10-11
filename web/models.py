@@ -82,8 +82,6 @@ class Attendee(models.Model):
 		('IN', 'Interested'),
 		('AP', 'Approved'),
 		('CO', 'Confirmed'),
-		('RE', 'Rejected'),
-		('DE', 'Default'),
 	)
 	user = models.ForeignKey(Smasher)
 	event = models.ForeignKey(Event)

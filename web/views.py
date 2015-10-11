@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.forms.models import model_to_dict
 
 from .models import Smasher, Event, Attendee
 from .forms import EventForm, UserCreationForm, AttendeeForm
@@ -38,7 +39,10 @@ def attendees(request, event_id):
 def event_details(request, event_id):
 	event = get_object_or_404(Event, pk=event_id)
 	event_form = EventForm(instance=event)
-	attendee = get_attendee(event, request.user)
+	try:
+		attendee = Attendee.objects.get(user=request.user, event=event)
+	except Exception:
+		attendee = Attendee(user=request.user, event=event)
 	if request.method == 'POST':
 		form = AttendeeForm(request.POST, instance=attendee)
 		if form.is_valid():
@@ -116,10 +120,6 @@ def event_create(request):
 class IndexView(generic.DetailView):
 	model = Smasher
 	template_name = 'downtosmash/index.html'
-
-def get_attendee(event, user):
-	attendee = Attendee.objects.get(user=user, event=event)
-	return attendee
 
 def create_event(request, user_id):
 	pass
