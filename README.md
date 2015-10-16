@@ -2,11 +2,20 @@
 An application that allows users to create, manage, and find nearby events for impromptu meetups.
 HackJam, CalHacks 2.0 2015 Project
 
-To try locally, you must have pip alongside a working version.  Modern versions of Python come with pip.  See http://pip.readthedocs.org/en/stable/installing/ for more information
-1. run `pip install django`
-2. install dependencies: `pip install django-html5`
-3. populate database: `py manage.py makemigrations && py manage.py migrate`
-4. run on http://localhost:8000/: `py manage.py runserver`
+Installation for devs
+==============
+0. Install Python 3. Modern versions of Python will come with `pip`; see http://pip.readthedocs.org/en/stable/installing/ for more information
+1. Run `pip install virtualenv`.  This is a tool that sandboxes your environment to keep dependencies consistent.  More info at http://docs.python-guide.org/en/latest/dev/virtualenvs/
+2. Install `virtualenvwrapper' to make using `virtualenv` easier.  It also places all your virtual environments in one place: 
+	- `pip install virtualenv`
+	Append these two lines to the end of your .bashrc:
+	- `export WORKON_HOME=~/envs`
+	- `source /usr/local/bin/virtualenvwrapper.sh`
+3. Create a new virtual environment: `mkvirtualenv dts`
+4. and enter it: `workon dts`
+5. Clone this git repo
+6. Install dependencies: `pip install -r requirements.txt`
+7. To exit the virtualenv, run `deactivate`
 
 ## Inspiration
 The three of us love playing Super Smash Brothers together. Unlike many modern games, it cannot be played online: we must be physically present with each other to play.  It's often difficult to know when we're available, or where we'll be at any given time.  The bandwidth of asking, confirming, and scheduling meetups is often enough to deter us from playing.
