@@ -1,6 +1,7 @@
 # Down to Smash
 An application that allows users to create, manage, and find nearby events for impromptu meetups.
 HackJam, CalHacks 2.0 2015 Project
+
 View the submission at http://devpost.com/software/downtosmash
 
 Installation for devs
